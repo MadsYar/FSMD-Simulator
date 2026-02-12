@@ -1,0 +1,109 @@
+<fsmddescription>
+
+  <statelist>
+    <state>INITIALIZE</state>
+    <state>TEST</state>
+    <state>A_DIVIDED_WITH_B</state>
+    <state>B_DIVIDED_WITH_A</state>
+    <state>DONE</state>
+  </statelist>
+
+  <initialstate>INITIALIZE</initialstate>
+
+  <inputlist>
+    <input>in_A</input>
+    <input>in_B</input>
+  </inputlist>
+
+  <variablelist>
+    <variable>var_A</variable>
+    <variable>var_B</variable>
+  </variablelist>
+
+  <operationlist>
+    <operation>
+      <name>init_A</name>
+      <expression>var_A = in_A</expression>
+    </operation>
+    <operation>
+      <name>init_B</name>
+      <expression>var_B = in_B</expression>
+    </operation>
+    <operation>
+      <name>A_divided_by_B</name>
+      <expression>var_A = var_A / var_B</expression>
+    </operation>
+    <operation>
+      <name>B_divided_by_A</name>
+      <expression>var_B = var_B / var_A</expression>
+    </operation>
+    </operationlist>
+    
+  <conditionlist>
+    <condition>
+      <name>A_more_B</name>
+      <expression>var_A &gt; var_B</expression>
+    </condition>
+    <condition>
+      <name>A_less_B</name>
+      <expression>var_A &lt; var_B</expression>
+    </condition>
+    <condition>
+      <name>A_equal_B</name>
+      <expression>var_A == var_B</expression>
+    </condition>
+  </conditionlist>
+
+  <fsmd>
+    <INITIALIZE>
+      <transition>
+        <condition>True</condition>
+        <instruction>init_A init_B</instruction>
+        <nextstate>TEST</nextstate>
+      </transition>
+    </INITIALIZE>
+
+    <TEST>
+      <transition>
+        <condition>A_more_B</condition>
+        <instruction>NOP</instruction>
+        <nextstate>A_DIVIDED_WITH_B</nextstate>
+      </transition>
+      <transition>
+        <condition>A_less_B</condition>
+        <instruction>NOP</instruction>
+        <nextstate>B_DIVIDED_WITH_A</nextstate>
+      </transition>
+      <transition>
+        <condition>A_equal_B</condition>
+        <instruction>NOP</instruction>
+        <nextstate>DONE</nextstate>
+      </transition>
+    </TEST>
+
+    <A_DIVIDED_WITH_B>
+      <transition>
+        <condition>True</condition>
+        <instruction>A_divided_by_B</instruction>
+        <nextstate>TEST</nextstate>
+      </transition>
+    </A_DIVIDED_WITH_B>
+
+    <B_DIVIDED_WITH_A>
+      <transition>
+        <condition>True</condition>
+        <instruction>B_divided_by_A</instruction>
+        <nextstate>TEST</nextstate>
+      </transition>
+    </B_DIVIDED_WITH_A>
+
+    <DONE>
+      <transition>
+        <condition>True</condition>
+        <instruction>NOP</instruction>
+        <nextstate>DONE</nextstate>
+      </transition>
+    </DONE>
+  </fsmd>
+
+</fsmddescription>
